@@ -3,17 +3,22 @@
 import Link from 'next/link'
 import { ShoppingCart, Menu, X, Search, User, Heart, ChevronDown } from 'lucide-react'
 import { useState } from 'react'
-import { useAppSelector } from '@/store/hooks'
+import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import { selectTotalItems } from '@/store/cartSlice'
-import { Button } from '@/components/ui/Button'
+import { clearWishlist, selectWishlistCount } from '@/store/wishlistSlice'
 import { Input } from '@/components/ui/Input'
+import { clearAuthCookie } from '@/lib/auth-cookie'
+import { useAuthFromStorage } from '@/lib/useAuthFromStorage'
 
 export default function Header() {
+  const dispatch = useAppDispatch()
   const [menuOpen, setMenuOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [accountMenuOpen, setAccountMenuOpen] = useState(false)
+  const isAuthenticated = useAuthFromStorage()
   const totalItems = useAppSelector(selectTotalItems)
+  const wishlistCount = useAppSelector(selectWishlistCount)
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
@@ -29,9 +34,9 @@ export default function Header() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-10 text-xs">
             <div className="flex items-center gap-4 text-muted-foreground">
-              <span>Free shipping on orders over $150</span>
+              <span>Hand-drawn dress designs</span>
               <span className="hidden sm:inline">•</span>
-              <span className="hidden sm:inline">Instant digital delivery</span>
+              <span className="hidden sm:inline">Instant digital delivery and commercial license</span>
             </div>
             <div className="flex items-center gap-4">
               <Link href="/faq" className="text-muted-foreground hover:text-foreground transition-colors">
@@ -115,35 +120,89 @@ export default function Header() {
               <Search size={20} />
             </button>
 
-            {/* Wishlist */}
-            <Link href="/wishlist" className="hidden sm:block relative p-2 text-foreground hover:text-primary transition-colors">
+            {/* Wishlist — saved items require sign-in */}
+            <Link
+              href={isAuthenticated ? '/wishlist' : `/login?returnUrl=${encodeURIComponent('/wishlist')}`}
+              className="hidden sm:block relative p-2 text-foreground hover:text-primary transition-colors"
+              aria-label="Wishlist"
+            >
               <Heart size={20} />
+              {wishlistCount > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] px-1 bg-accent text-accent-foreground text-[10px] flex items-center justify-center rounded-full font-semibold">
+                  {wishlistCount > 99 ? '99+' : wishlistCount}
+                </span>
+              )}
             </Link>
 
             {/* Account */}
-            <div className="relative">
-              <button
-                onClick={() => setAccountMenuOpen(!accountMenuOpen)}
-                className="p-2 text-foreground hover:text-primary transition-colors"
-                aria-label="Account"
-              >
-                <User size={20} />
-              </button>
+            <div className="relative flex items-center">
+              {isAuthenticated ? (
+                <>
+                  <Link
+                    href="/account"
+                    className="flex items-center gap-1.5 p-2 rounded-md text-foreground hover:text-primary hover:bg-secondary/80 transition-colors"
+                    onClick={() => setAccountMenuOpen(false)}
+                  >
+                    <User size={20} />
+                    <span className="hidden sm:inline text-sm font-medium">Account</span>
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={() => setAccountMenuOpen(!accountMenuOpen)}
+                    className="p-1 text-foreground hover:text-primary rounded-md hover:bg-secondary/80"
+                    aria-label="Open account menu"
+                    aria-expanded={accountMenuOpen}
+                  >
+                    <ChevronDown size={16} className={accountMenuOpen ? 'rotate-180 transition-transform' : 'transition-transform'} />
+                  </button>
+                </>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setAccountMenuOpen(!accountMenuOpen)}
+                  className="p-2 text-foreground hover:text-primary transition-colors"
+                  aria-label="Account"
+                >
+                  <User size={20} />
+                </button>
+              )}
               {accountMenuOpen && (
-                <div className="absolute right-0 top-full mt-2 w-48 bg-card border border-border rounded-lg shadow-lg z-50">
+                <div className="absolute right-0 top-full mt-2 w-52 bg-card border border-border rounded-lg shadow-lg z-50">
                   <div className="p-2">
-                    {typeof window !== 'undefined' && localStorage.getItem('authToken') ? (
+                    {isAuthenticated ? (
                       <>
-                        <Link href="/account" className="block px-3 py-2 text-sm text-foreground hover:bg-secondary rounded-md">My Account</Link>
-                        <Link href="/account?tab=orders" className="block px-3 py-2 text-sm text-foreground hover:bg-secondary rounded-md">My Orders</Link>
-                        <Link href="/account?tab=wishlist" className="block px-3 py-2 text-sm text-foreground hover:bg-secondary rounded-md">Wishlist</Link>
+                        <Link
+                          href="/account?tab=orders"
+                          className="block px-3 py-2 text-sm text-foreground hover:bg-secondary rounded-md"
+                          onClick={() => setAccountMenuOpen(false)}
+                        >
+                          My Orders
+                        </Link>
+                        <Link
+                          href="/wishlist"
+                          className="block px-3 py-2 text-sm text-foreground hover:bg-secondary rounded-md"
+                          onClick={() => setAccountMenuOpen(false)}
+                        >
+                          Wishlist
+                        </Link>
+                        <Link
+                          href="/account?tab=settings"
+                          className="block px-3 py-2 text-sm text-foreground hover:bg-secondary rounded-md"
+                          onClick={() => setAccountMenuOpen(false)}
+                        >
+                          Settings
+                        </Link>
                         <div className="border-t border-border my-1"></div>
-                        <button 
+                        <button
+                          type="button"
                           onClick={() => {
                             localStorage.removeItem('authToken')
                             localStorage.removeItem('userEmail')
                             localStorage.removeItem('userName')
-                            window.location.href = '/login'
+                            dispatch(clearWishlist())
+                            clearAuthCookie()
+                            setAccountMenuOpen(false)
+                            window.location.href = '/'
                           }}
                           className="w-full text-left px-3 py-2 text-sm text-foreground hover:bg-secondary rounded-md"
                         >
@@ -152,8 +211,20 @@ export default function Header() {
                       </>
                     ) : (
                       <>
-                        <Link href="/login" className="block px-3 py-2 text-sm text-foreground hover:bg-secondary rounded-md">Sign In</Link>
-                        <Link href="/register" className="block px-3 py-2 text-sm text-foreground hover:bg-secondary rounded-md">Sign Up</Link>
+                        <Link
+                          href="/login"
+                          className="block px-3 py-2 text-sm text-foreground hover:bg-secondary rounded-md"
+                          onClick={() => setAccountMenuOpen(false)}
+                        >
+                          Sign In
+                        </Link>
+                        <Link
+                          href="/register"
+                          className="block px-3 py-2 text-sm text-foreground hover:bg-secondary rounded-md"
+                          onClick={() => setAccountMenuOpen(false)}
+                        >
+                          Sign Up
+                        </Link>
                       </>
                     )}
                   </div>
@@ -252,20 +323,63 @@ export default function Header() {
               Contact
             </Link>
             <div className="border-t border-border my-2"></div>
-            <Link 
-              href="/wishlist" 
+            <Link
+              href={isAuthenticated ? '/wishlist' : `/login?returnUrl=${encodeURIComponent('/wishlist')}`}
               className="block px-4 py-3 text-foreground hover:bg-secondary rounded-lg text-base font-medium transition-colors"
               onClick={() => setMenuOpen(false)}
             >
               Wishlist
             </Link>
-            <Link 
-              href="/account" 
-              className="block px-4 py-3 text-foreground hover:bg-secondary rounded-lg text-base font-medium transition-colors"
-              onClick={() => setMenuOpen(false)}
-            >
-              My Account
-            </Link>
+            {isAuthenticated ? (
+              <>
+                <Link
+                  href="/account"
+                  className="block px-4 py-3 text-foreground hover:bg-secondary rounded-lg text-base font-medium transition-colors"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  My Account
+                </Link>
+                <Link
+                  href="/account?tab=orders"
+                  className="block px-4 py-2 text-foreground hover:bg-secondary rounded-lg text-sm ml-4"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  My Orders
+                </Link>
+                <button
+                  type="button"
+                  className="block w-full text-left px-4 py-3 text-foreground hover:bg-secondary rounded-lg text-base font-medium transition-colors"
+                  onClick={() => {
+                    localStorage.removeItem('authToken')
+                    localStorage.removeItem('userEmail')
+                    localStorage.removeItem('userName')
+                    dispatch(clearWishlist())
+                    clearAuthCookie()
+                    setMenuOpen(false)
+                    window.location.href = '/'
+                  }}
+                >
+                  Sign Out
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  className="block px-4 py-3 text-foreground hover:bg-secondary rounded-lg text-base font-medium transition-colors"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Sign In
+                </Link>
+                <Link
+                  href="/register"
+                  className="block px-4 py-3 text-foreground hover:bg-secondary rounded-lg text-base font-medium transition-colors"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Sign Up
+                </Link>
+              </>
+            )}
           </nav>
         )}
       </div>

@@ -1,6 +1,5 @@
 'use client'
 
-import { useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import AccountSidebar from './AccountSidebar'
 import AccountProfile from './AccountProfile'
@@ -13,31 +12,16 @@ type AccountTab = 'profile' | 'orders' | 'wishlist' | 'settings'
 export default function AccountContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const [activeTab, setActiveTab] = useState<AccountTab>('profile')
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
 
-  useEffect(() => {
-    // Check authentication
-    const token = localStorage.getItem('authToken')
-    if (!token) {
-      router.push('/login')
-    } else {
-      setIsAuthenticated(true)
-    }
+  const tabParam = searchParams.get('tab')
+  const activeTab: AccountTab = (tabParam && ['profile', 'orders', 'wishlist', 'settings'].includes(tabParam)
+    ? tabParam
+    : 'profile') as AccountTab
 
-    // Check for tab in URL
-    const tab = searchParams.get('tab')
-    if (tab && ['profile', 'orders', 'wishlist', 'settings'].includes(tab)) {
-      setActiveTab(tab as AccountTab)
-    }
-  }, [router, searchParams])
-
-  if (!isAuthenticated) {
-    return (
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-      </div>
-    )
+  const handleTabChange = (tab: AccountTab) => {
+    const params = new URLSearchParams(searchParams.toString())
+    params.set('tab', tab)
+    router.push(`?${params.toString()}`)
   }
 
   return (
@@ -45,7 +29,7 @@ export default function AccountContent() {
       <h1 className="text-4xl font-playfair font-bold text-foreground mb-8">My Account</h1>
       
       <div className="grid lg:grid-cols-4 gap-8">
-        <AccountSidebar activeTab={activeTab} onTabChange={setActiveTab} />
+        <AccountSidebar activeTab={activeTab} onTabChange={handleTabChange} />
         
         <div className="lg:col-span-3">
           {activeTab === 'profile' && <AccountProfile />}

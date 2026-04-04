@@ -3,11 +3,14 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { Button } from '@/components/ui/Button'
-import { ShoppingCart, CheckCircle2 } from 'lucide-react'
+import { ShoppingCart, CheckCircle2, Heart } from 'lucide-react'
 import { Product } from '@/types/product'
-import { useAppDispatch } from '@/store/hooks'
+import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import { addToCart } from '@/store/cartSlice'
+import { selectIsInWishlist, toggleWishlist } from '@/store/wishlistSlice'
 import { useState } from 'react'
+import { useRouter, usePathname } from 'next/navigation'
+import { useAuthFromStorage } from '@/lib/useAuthFromStorage'
 
 interface ProductCardProps {
   product: Product
@@ -17,7 +20,31 @@ interface ProductCardProps {
 
 export default function ProductCard({ product, viewMode = 'grid', onAddToCart }: ProductCardProps) {
   const dispatch = useAppDispatch()
+  const router = useRouter()
+  const pathname = usePathname()
+  const isAuthenticated = useAuthFromStorage()
   const [addedToCart, setAddedToCart] = useState(false)
+  const inWishlist = useAppSelector(selectIsInWishlist(product.id))
+
+  const wishlistPayload = {
+    id: product.id,
+    name: product.name,
+    price: product.price,
+    image: product.images[0],
+    defaultSize: product.sizes[0],
+    defaultColor: product.colorOptions[0],
+  }
+
+  const handleToggleWishlist = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    if (!isAuthenticated) {
+      const returnUrl = pathname || '/shop'
+      router.push(`/login?returnUrl=${encodeURIComponent(returnUrl)}`)
+      return
+    }
+    dispatch(toggleWishlist(wishlistPayload))
+  }
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault()
@@ -40,7 +67,7 @@ export default function ProductCard({ product, viewMode = 'grid', onAddToCart }:
     return (
       <div className="group bg-card border border-border rounded-lg overflow-hidden hover:shadow-lg transition-all duration-300">
         <div className="flex flex-col sm:flex-row gap-4 p-4">
-          <Link href={`/product/${product.id}`} className="flex-shrink-0">
+          <Link href={`/product/${product.id}`} className="flex-shrink-0 relative">
             <div className="relative w-full sm:w-48 h-64 sm:h-48 bg-muted rounded-lg overflow-hidden">
               <Image
                 src={product.images[0] || "/placeholder.svg"}
@@ -48,13 +75,19 @@ export default function ProductCard({ product, viewMode = 'grid', onAddToCart }:
                 fill
                 className="object-cover group-hover:scale-110 transition-transform duration-500"
                 sizes="(max-width: 640px) 100vw, 192px"
-                onError={(e) => {
-                  const target = e.target as HTMLImageElement
-                  target.src = '/placeholder.svg'
-                }}
               />
+              <button
+                type="button"
+                onClick={handleToggleWishlist}
+                className={`absolute top-2 right-2 z-10 p-2 rounded-full shadow-md transition-colors ${
+                  inWishlist ? 'bg-accent text-accent-foreground' : 'bg-background/90 text-foreground hover:bg-background'
+                }`}
+                aria-label={inWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
+              >
+                <Heart size={18} fill={inWishlist ? 'currentColor' : 'none'} />
+              </button>
               {product.originalPrice && (
-                <div className="absolute top-2 right-2 bg-primary text-primary-foreground px-2 py-1 rounded text-xs font-semibold">
+                <div className="absolute top-2 left-2 z-[5] bg-primary text-primary-foreground px-2 py-1 rounded text-xs font-semibold">
                   {Math.round((1 - product.price / product.originalPrice) * 100)}% OFF
                 </div>
               )}
@@ -111,51 +144,57 @@ export default function ProductCard({ product, viewMode = 'grid', onAddToCart }:
 
   return (
     <div className="group">
-      <Link href={`/product/${product.id}`}>
-        <div className="relative overflow-hidden rounded-lg bg-muted h-80 mb-4 shadow-sm group-hover:shadow-lg transition-all duration-300">
+      <div className="relative overflow-hidden rounded-lg bg-muted h-80 mb-4 shadow-sm group-hover:shadow-lg transition-all duration-300">
+        <Link href={`/product/${product.id}`} className="absolute inset-0 z-0 block">
           <Image
-            src={product.images[0] || "/placeholder.svg"}
+            src={product.images[0] || '/placeholder.svg'}
             alt={product.name}
             fill
             className="object-cover group-hover:scale-110 transition-transform duration-500"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            onError={(e) => {
-              const target = e.target as HTMLImageElement
-              target.src = '/placeholder.svg'
-            }}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-          {product.originalPrice && (
-            <div className="absolute top-2 right-2 bg-primary text-primary-foreground px-2 py-1 rounded text-xs font-semibold shadow-md">
-              {Math.round((1 - product.price / product.originalPrice) * 100)}% OFF
-            </div>
-          )}
-          {product.featured && (
-            <div className="absolute top-2 left-2 bg-accent text-accent-foreground px-2 py-1 rounded text-xs font-semibold shadow-md">
-              Featured
-            </div>
-          )}
-          <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <Button
-              onClick={handleAddToCart}
-              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg"
-              size="sm"
-            >
-              {addedToCart ? (
-                <span className="flex items-center gap-2">
-                  <CheckCircle2 size={16} />
-                  Added!
-                </span>
-              ) : (
-                <span className="flex items-center gap-2">
-                  <ShoppingCart size={16} />
-                  Quick Add
-                </span>
-              )}
-            </Button>
+        </Link>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+        {product.originalPrice && (
+          <div className="absolute top-2 right-2 z-10 bg-primary text-primary-foreground px-2 py-1 rounded text-xs font-semibold shadow-md pointer-events-none">
+            {Math.round((1 - product.price / product.originalPrice) * 100)}% OFF
           </div>
+        )}
+        {product.featured && (
+          <div className="absolute top-2 left-2 z-10 bg-accent text-accent-foreground px-2 py-1 rounded text-xs font-semibold shadow-md pointer-events-none">
+            Featured
+          </div>
+        )}
+        <button
+          type="button"
+          onClick={handleToggleWishlist}
+          className={`absolute bottom-16 right-3 z-20 p-2 rounded-full shadow-md transition-colors ${
+            inWishlist ? 'bg-accent text-accent-foreground' : 'bg-background/90 text-foreground hover:bg-background'
+          }`}
+          aria-label={inWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
+        >
+          <Heart size={18} fill={inWishlist ? 'currentColor' : 'none'} />
+        </button>
+        <div className="absolute bottom-4 left-4 right-4 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <Button
+            onClick={handleAddToCart}
+            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg"
+            size="sm"
+          >
+            {addedToCart ? (
+              <span className="flex items-center gap-2">
+                <CheckCircle2 size={16} />
+                Added!
+              </span>
+            ) : (
+              <span className="flex items-center gap-2">
+                <ShoppingCart size={16} />
+                Quick Add
+              </span>
+            )}
+          </Button>
         </div>
-      </Link>
+      </div>
       <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold mb-2">
         {product.category === 'women' ? 'Women' : 'Girls'} • {product.collection}
       </p>

@@ -45,7 +45,7 @@ export default function ContactPage() {
               Get in Touch
             </h1>
             <p className="text-xl text-muted-foreground leading-relaxed">
-              Have a question? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+              Have a question? We’d love to hear from you. Send us a message and we’ll respond as soon as possible.
             </p>
           </div>
         </section>
@@ -57,7 +57,7 @@ export default function ContactPage() {
               <div>
                 <h2 className="text-3xl font-playfair font-bold text-foreground mb-6">Contact Information</h2>
                 <p className="text-muted-foreground mb-8">
-                  We're here to help! Reach out to us through any of the following channels.
+                  We’re here to help! Reach out to us through any of the following channels.
                 </p>
               </div>
 
@@ -108,8 +108,8 @@ export default function ContactPage() {
               <div className="pt-8 border-t border-border">
                 <h3 className="font-semibold text-foreground mb-4">Response Time</h3>
                 <p className="text-sm text-muted-foreground">
-                  We typically respond to all inquiries within 24-48 hours during business days. 
-                  For urgent matters, please call us directly.
+                      We typically respond to all inquiries within 24-48 hours during business days. 
+                      For urgent matters, please call us directly.
                 </p>
               </div>
             </div>
@@ -125,7 +125,7 @@ export default function ContactPage() {
                       <CheckCircle2 className="text-primary" size={32} />
                     </div>
                     <h3 className="text-xl font-semibold text-foreground mb-2">Message Sent!</h3>
-                    <p className="text-muted-foreground">We'll get back to you soon.</p>
+                    <p className="text-muted-foreground">We’ll get back to you soon.</p>
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-6">

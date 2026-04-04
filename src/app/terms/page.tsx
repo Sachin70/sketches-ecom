@@ -1,6 +1,5 @@
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import { FileText, AlertCircle, CheckCircle2 } from 'lucide-react'
 
 export default function TermsPage() {
   return (
@@ -25,7 +24,7 @@ export default function TermsPage() {
               <div>
                 <h2 className="text-3xl font-playfair font-bold text-foreground mb-4">Agreement to Terms</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  By accessing or using Atelier Designs' website and purchasing our design products, you agree to be bound by 
+                  By accessing or using Atelier Designs’ website and purchasing our design products, you agree to be bound by 
                   these Terms of Service. If you disagree with any part of these terms, you may not access our services.
                 </p>
               </div>
@@ -51,7 +50,7 @@ export default function TermsPage() {
                     </p>
                     <ul className="list-disc list-inside text-muted-foreground space-y-2 ml-4 mt-2">
                       <li>Resell or redistribute the design files themselves</li>
-                      <li>Share design files with others who haven't purchased them</li>
+                      <li>Share design files with others who haven’t purchased them</li>
                       <li>Claim the design as your own original work</li>
                       <li>Use the design in a way that violates applicable laws</li>
                     </ul>
@@ -87,7 +86,7 @@ export default function TermsPage() {
               <div>
                 <h2 className="text-3xl font-playfair font-bold text-foreground mb-4">Refund Policy</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  We offer a 30-day money-back guarantee on all design purchases. If you're not satisfied, contact us within 
+                  We offer a 30-day money-back guarantee on all design purchases. If you’re not satisfied, contact us within 
                   30 days for a full refund. Custom design orders are non-refundable once the design process has begun. 
                   For more details, see our <a href="/returns" className="text-primary hover:underline">Returns Policy</a>.
                 </p>
@@ -105,7 +104,7 @@ export default function TermsPage() {
               <div>
                 <h2 className="text-3xl font-playfair font-bold text-foreground mb-4">Limitation of Liability</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  Atelier Designs provides design files "as is" without warranties of any kind. We are not liable for any 
+                  Atelier Designs provides design files “as is” without warranties of any kind. We are not liable for any 
                   damages arising from the use of our designs, including but not limited to production issues, design modifications, 
                   or business decisions made based on our designs.
                 </p>

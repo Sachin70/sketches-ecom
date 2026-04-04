@@ -23,52 +23,56 @@ export default async function ProductPage({
     notFound()
   }
 
+  let productResponse
+  let similarProducts: Awaited<ReturnType<typeof getSimilarProducts>> = []
+
   try {
-    const productResponse = await getProductById(productId)
-    const product = productResponse.product
-    const similarProducts = await getSimilarProducts(productId)
-
-    return (
-      <>
-        <Header />
-        <main className="bg-background">
-          {/* Breadcrumb */}
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Link href="/" className="hover:text-foreground transition-colors">Home</Link>
-              <span>/</span>
-              <Link href="/shop" className="hover:text-foreground transition-colors">Shop</Link>
-              <span>/</span>
-              <span className="text-foreground">{product.name}</span>
-            </div>
-          </div>
-
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <div className="grid md:grid-cols-2 gap-12">
-              {/* Product Images */}
-              <ProductImageGallery product={product} />
-
-              {/* Product Info */}
-              <ProductInfo product={product} />
-            </div>
-
-            {/* Product Details */}
-            <ProductDetails product={product} />
-
-            {/* Reviews Section */}
-            <ProductReviews product={product} />
-
-            {/* Similar Products */}
-            {similarProducts.length > 0 && (
-              <SimilarProducts products={similarProducts} />
-            )}
-          </div>
-        </main>
-        <Footer />
-      </>
-    )
+    productResponse = await getProductById(productId)
+    similarProducts = await getSimilarProducts(productId)
   } catch (error) {
     console.error('Failed to load product:', error)
     notFound()
   }
+
+  const product = productResponse.product
+
+  return (
+    <>
+      <Header />
+      <main className="bg-background">
+        {/* Breadcrumb */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <Link href="/" className="hover:text-foreground transition-colors">Home</Link>
+            <span>/</span>
+            <Link href="/shop" className="hover:text-foreground transition-colors">Shop</Link>
+            <span>/</span>
+            <span className="text-foreground">{product.name}</span>
+          </div>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="grid md:grid-cols-2 gap-12">
+            {/* Product Images */}
+            <ProductImageGallery product={product} />
+
+            {/* Product Info */}
+            <ProductInfo product={product} />
+          </div>
+
+          {/* Product Details */}
+          <ProductDetails product={product} />
+
+          {/* Reviews Section */}
+          <ProductReviews product={product} />
+
+          {/* Similar Products */}
+          {similarProducts.length > 0 && (
+            <SimilarProducts products={similarProducts} />
+          )}
+        </div>
+      </main>
+      <Footer />
+    </>
+  )
 }

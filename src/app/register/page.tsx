@@ -1,16 +1,20 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
-import { Mail, Lock, User, Eye, EyeOff, CheckCircle2 } from 'lucide-react'
+import { Mail, Lock, User, Eye, EyeOff } from 'lucide-react'
+import { setAuthCookie, safeReturnUrl } from '@/lib/auth-cookie'
+import { restoreWishlistFromLocalStorage } from '@/lib/restore-wishlist'
+import { useAppDispatch } from '@/store/hooks'
 
 export default function RegisterPage() {
   const router = useRouter()
+  const dispatch = useAppDispatch()
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [formData, setFormData] = useState({
@@ -21,6 +25,12 @@ export default function RegisterPage() {
   })
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && localStorage.getItem('authToken')) {
+      router.replace('/account')
+    }
+  }, [router])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -47,7 +57,10 @@ export default function RegisterPage() {
       localStorage.setItem('authToken', 'mock-token')
       localStorage.setItem('userEmail', formData.email)
       localStorage.setItem('userName', formData.name)
-      router.push('/account')
+      setAuthCookie()
+      restoreWishlistFromLocalStorage(dispatch)
+      const params = new URLSearchParams(window.location.search)
+      router.push(safeReturnUrl(params.get('returnUrl')))
     } else {
       setError('Please fill in all fields')
     }

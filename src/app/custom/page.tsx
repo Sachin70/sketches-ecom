@@ -189,8 +189,8 @@ export default function CustomPage() {
                       className="flex h-10 w-full rounded-md border border-border bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                     >
                       <option value="">Select type</option>
-                      <option value="women">Women's Dress</option>
-                      <option value="girls">Girls' Dress</option>
+                      <option value="women">Women’s Dress</option>
+                      <option value="girls">Girls’ Dress</option>
                       <option value="bridal">Bridal Gown</option>
                       <option value="evening">Evening Wear</option>
                       <option value="casual">Casual Wear</option>

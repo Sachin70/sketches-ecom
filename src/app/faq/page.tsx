@@ -20,7 +20,7 @@ const faqs = [
   },
   {
     question: 'How do I download my purchased designs?',
-    answer: 'After completing your purchase, you\'ll receive an email with download links to all your design files. You can also access your downloads anytime by logging into your account (if you create one) or using the link provided in your confirmation email.',
+    answer: 'After completing your purchase, you’ll receive an email with download links to all your design files. You can also access your downloads anytime by logging into your account (if you create one) or using the link provided in your confirmation email.',
   },
   {
     question: 'Can I request modifications to a design?',
@@ -28,7 +28,7 @@ const faqs = [
   },
   {
     question: 'What is your return policy?',
-    answer: 'Since we sell digital products, we offer a 30-day money-back guarantee. If you\'re not satisfied with your purchase for any reason, contact us within 30 days for a full refund. Please note that once you\'ve downloaded the files, you agree to our terms of service.',
+    answer: 'Since we sell digital products, we offer a 30-day money-back guarantee. If you’re not satisfied with your purchase for any reason, contact us within 30 days for a full refund. Please note that once you’ve downloaded the files, you agree to our terms of service.',
   },
   {
     question: 'Do you offer custom design services?',
@@ -36,11 +36,11 @@ const faqs = [
   },
   {
     question: 'How long does it take to receive custom designs?',
-    answer: 'Custom design timelines vary based on complexity, but typically range from 1-4 weeks. This includes initial sketches, revisions, and final design delivery. We\'ll provide a specific timeline after reviewing your custom design request.',
+    answer: 'Custom design timelines vary based on complexity, but typically range from 1-4 weeks. This includes initial sketches, revisions, and final design delivery. We’ll provide a specific timeline after reviewing your custom design request.',
   },
   {
     question: 'What if I need help with production?',
-    answer: 'Each design includes technical specifications and fabric recommendations to help with production. While we don\'t provide production services, our designs are created to be production-ready. For additional guidance, feel free to contact our support team.',
+    answer: 'Each design includes technical specifications and fabric recommendations to help with production. While we don’t provide production services, our designs are created to be production-ready. For additional guidance, feel free to contact our support team.',
   },
   {
     question: 'Are the designs suitable for all skill levels?',
@@ -106,7 +106,7 @@ export default function FAQPage() {
                 Still have questions?
               </h3>
               <p className="text-muted-foreground mb-6">
-                Can't find the answer you're looking for? Our support team is here to help.
+                Can’t find the answer you’re looking for? Our support team is here to help.
               </p>
               <a href="/contact">
                 <button className="bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-3 rounded-md font-medium transition-colors">

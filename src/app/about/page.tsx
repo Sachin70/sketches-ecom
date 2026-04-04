@@ -37,8 +37,8 @@ export default function AboutPage() {
                 includes complete technical specifications, fabric recommendations, and production guidance.
               </p>
               <p className="text-muted-foreground leading-relaxed">
-                Whether you're a fashion designer, a small boutique owner, or someone who simply appreciates beautiful craftsmanship, 
-                we're here to provide you with the tools and inspiration to bring your vision to life.
+                Whether you’re a fashion designer, a small boutique owner, or someone who simply appreciates beautiful craftsmanship, 
+                we’re here to provide you with the tools and inspiration to bring your vision to life.
               </p>
             </div>
           </div>

@@ -1,29 +1,40 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { User, Mail, Phone, MapPin, CheckCircle2 } from 'lucide-react'
 
 export default function AccountProfile() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    address: '',
-    city: '',
-    state: '',
-    zipCode: '',
-    country: 'United States',
-  })
-  const [isSaved, setIsSaved] = useState(false)
+  const [formData, setFormData] = useState(() => {
+    if (typeof window === 'undefined') {
+      return {
+        name: '',
+        email: '',
+        phone: '',
+        address: '',
+        city: '',
+        state: '',
+        zipCode: '',
+        country: 'United States',
+      }
+    }
 
-  useEffect(() => {
-    // Load user data from localStorage
     const email = localStorage.getItem('userEmail') || ''
     const name = localStorage.getItem('userName') || ''
-    setFormData(prev => ({ ...prev, email, name }))
-  }, [])
+
+    return {
+      name,
+      email,
+      phone: '',
+      address: '',
+      city: '',
+      state: '',
+      zipCode: '',
+      country: 'United States',
+    }
+  })
+  const [isSaved, setIsSaved] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()

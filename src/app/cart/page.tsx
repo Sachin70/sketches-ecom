@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { Button } from '@/components/ui/Button'
@@ -8,9 +9,11 @@ import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import { selectCartItems, selectTotalPrice, removeFromCart, updateQuantity, clearCart } from '@/store/cartSlice'
 import Link from 'next/link'
 import { Trash2, Plus, Minus, ShoppingBag } from 'lucide-react'
+import { useAuthFromStorage } from '@/lib/useAuthFromStorage'
 
 export default function CartPage() {
   const dispatch = useAppDispatch()
+  const isAuthenticated = useAuthFromStorage()
   const items = useAppSelector(selectCartItems)
   const subtotal = useAppSelector(selectTotalPrice)
   const [isProcessing, setIsProcessing] = useState(false)
@@ -25,7 +28,7 @@ export default function CartPage() {
               <ShoppingBag size={64} className="mx-auto text-muted-foreground mb-6" />
               <h1 className="text-4xl font-playfair font-bold text-foreground mb-4">Your Cart is Empty</h1>
               <p className="text-muted-foreground mb-8 max-w-md mx-auto">
-                Looks like you haven't added anything to your cart yet. Start shopping to fill it up!
+                Looks like you haven’t added anything to your cart yet. Start shopping to fill it up!
               </p>
               <Link href="/shop">
                 <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground">
@@ -58,25 +61,28 @@ export default function CartPage() {
           <div className="grid lg:grid-cols-3 gap-8">
             {/* Cart Items */}
             <div className="lg:col-span-2 space-y-4">
-              {items.map((item, index) => (
+              {items.map((item, index) => {
+                const line = {
+                  id: item.id,
+                  size: item.size,
+                  color: item.color,
+                  customization: item.customization,
+                }
+                return (
                 <div
-                  key={`${item.id}-${item.size}-${item.color}-${index}`}
+                  key={`${item.id}-${item.size}-${item.color}-${item.customization ?? ''}-${index}`}
                   className="bg-card border border-border rounded-lg p-6 flex flex-col sm:flex-row gap-6"
                 >
-                  {/* Image */}
-                  <div className="relative w-full sm:w-32 h-48 sm:h-32 bg-muted rounded-lg overflow-hidden flex-shrink-0">
-                    <img
+                  <div className="relative w-full sm:w-32 h-48 sm:h-32 bg-muted rounded-lg overflow-hidden shrink-0">
+                    <Image
                       src={item.image || '/placeholder.svg'}
                       alt={item.name}
-                      className="w-full h-full object-cover"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement
-                        target.src = '/placeholder.svg'
-                      }}
+                      fill
+                      className="object-cover"
+                      sizes="128px"
                     />
                   </div>
 
-                  {/* Details */}
                   <div className="flex-1 flex flex-col justify-between">
                     <div>
                       <Link href={`/product/${item.id}`}>
@@ -84,37 +90,47 @@ export default function CartPage() {
                           {item.name}
                         </h3>
                       </Link>
-                      <div className="flex flex-wrap gap-4 text-sm text-muted-foreground mb-4">
+                      <div className="flex flex-wrap gap-4 text-sm text-muted-foreground mb-2">
                         <span>Size: <span className="text-foreground font-medium">{item.size}</span></span>
                         <span>Color: <span className="text-foreground font-medium">{item.color}</span></span>
                       </div>
+                      {item.customization && (
+                        <p className="text-xs text-muted-foreground border-l-2 border-primary/40 pl-3 py-1 mb-4 max-w-xl">
+                          {item.customization}
+                        </p>
+                      )}
                     </div>
 
                     <div className="flex items-center justify-between">
-                      {/* Quantity Controls */}
                       <div className="flex items-center gap-3">
                         <button
-                          onClick={() => dispatch(updateQuantity({ id: item.id, size: item.size, color: item.color, quantity: item.quantity - 1 }))}
+                          type="button"
+                          onClick={() =>
+                            dispatch(updateQuantity({ ...line, quantity: item.quantity - 1 }))
+                          }
                           className="w-8 h-8 flex items-center justify-center border border-border rounded-lg hover:bg-secondary transition-colors"
                         >
                           <Minus size={16} />
                         </button>
                         <span className="w-12 text-center font-semibold text-foreground">{item.quantity}</span>
                         <button
-                          onClick={() => dispatch(updateQuantity({ id: item.id, size: item.size, color: item.color, quantity: item.quantity + 1 }))}
+                          type="button"
+                          onClick={() =>
+                            dispatch(updateQuantity({ ...line, quantity: item.quantity + 1 }))
+                          }
                           className="w-8 h-8 flex items-center justify-center border border-border rounded-lg hover:bg-secondary transition-colors"
                         >
                           <Plus size={16} />
                         </button>
                       </div>
 
-                      {/* Price and Remove */}
                       <div className="flex items-center gap-4">
                         <p className="text-lg font-semibold text-primary">
                           ${(item.price * item.quantity).toFixed(2)}
                         </p>
                         <button
-                          onClick={() => dispatch(removeFromCart({ id: item.id, size: item.size, color: item.color }))}
+                          type="button"
+                          onClick={() => dispatch(removeFromCart(line))}
                           className="p-2 text-muted-foreground hover:text-destructive transition-colors"
                           aria-label="Remove item"
                         >
@@ -124,7 +140,8 @@ export default function CartPage() {
                     </div>
                   </div>
                 </div>
-              ))}
+                )
+              })}
 
               {/* Clear Cart */}
               <div className="pt-4">
@@ -166,7 +183,13 @@ export default function CartPage() {
                 </div>
 
                 <div className="space-y-3">
-                  <Link href="/checkout">
+                  <Link
+                    href={
+                      isAuthenticated
+                        ? '/checkout'
+                        : `/login?returnUrl=${encodeURIComponent('/checkout')}`
+                    }
+                  >
                     <Button
                       className="w-full h-12 text-base bg-primary hover:bg-primary/90 text-primary-foreground"
                       onClick={() => setIsProcessing(true)}

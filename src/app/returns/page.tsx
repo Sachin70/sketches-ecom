@@ -37,11 +37,11 @@ export default function ReturnsPage() {
                       30-Day Money-Back Guarantee
                     </h2>
                     <p className="text-muted-foreground leading-relaxed mb-4">
-                      We stand behind the quality of our designs. If you're not completely satisfied with your purchase, 
+                      We stand behind the quality of our designs. If you’re not completely satisfied with your purchase, 
                       you can request a full refund within 30 days of your purchase date.
                     </p>
                     <p className="text-muted-foreground leading-relaxed">
-                      This guarantee applies to all design purchases, whether you've downloaded the files or not. 
+                      This guarantee applies to all design purchases, whether you’ve downloaded the files or not. 
                       We want you to be happy with your purchase and confident in using our designs.
                     </p>
                   </div>
@@ -136,7 +136,7 @@ export default function ReturnsPage() {
                   However, we work closely with you throughout the process to ensure satisfaction.
                 </p>
                 <p className="text-muted-foreground">
-                  If you have concerns about a custom design order, please contact us immediately, and we'll work with you to find a solution.
+                  If you have concerns about a custom design order, please contact us immediately, and we’ll work with you to find a solution.
                 </p>
               </div>
 
@@ -146,7 +146,7 @@ export default function ReturnsPage() {
                   Need Help?
                 </h3>
                 <p className="text-muted-foreground mb-6">
-                  If you have questions about our return policy or need assistance with a refund request, we're here to help.
+                  If you have questions about our return policy or need assistance with a refund request, we’re here to help.
                 </p>
                 <Link href="/contact">
                   <button className="bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-3 rounded-md font-medium transition-colors">

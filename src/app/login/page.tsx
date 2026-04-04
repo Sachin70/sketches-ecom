@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Header from '@/components/Header'
@@ -8,9 +8,13 @@ import Footer from '@/components/Footer'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react'
+import { setAuthCookie, safeReturnUrl } from '@/lib/auth-cookie'
+import { restoreWishlistFromLocalStorage } from '@/lib/restore-wishlist'
+import { useAppDispatch } from '@/store/hooks'
 
 export default function LoginPage() {
   const router = useRouter()
+  const dispatch = useAppDispatch()
   const [showPassword, setShowPassword] = useState(false)
   const [formData, setFormData] = useState({
     email: '',
@@ -18,6 +22,12 @@ export default function LoginPage() {
   })
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && localStorage.getItem('authToken')) {
+      router.replace('/account')
+    }
+  }, [router])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -29,10 +39,13 @@ export default function LoginPage() {
 
     // Mock authentication - in real app, validate with backend
     if (formData.email && formData.password) {
-      // Store auth token (mock)
       localStorage.setItem('authToken', 'mock-token')
       localStorage.setItem('userEmail', formData.email)
-      router.push('/account')
+      setAuthCookie()
+      restoreWishlistFromLocalStorage(dispatch)
+      const params = new URLSearchParams(window.location.search)
+      const next = safeReturnUrl(params.get('returnUrl'))
+      router.push(next)
     } else {
       setError('Please fill in all fields')
     }
@@ -122,7 +135,7 @@ export default function LoginPage() {
 
             <div className="mt-6 text-center">
               <p className="text-sm text-muted-foreground">
-                Don't have an account?{' '}
+                Don’t have an account?{' '}
                 <Link href="/register" className="text-primary hover:underline font-medium">
                   Sign up
                 </Link>

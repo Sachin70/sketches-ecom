@@ -43,8 +43,8 @@ export default function ProductReviews({ product }: ProductReviewsProps) {
               <span className="text-xs text-muted-foreground">2 days ago</span>
             </div>
             <p className="text-foreground leading-relaxed">
-              "Absolutely love this design! The quality is exceptional and the files were delivered instantly. 
-              Highly recommend for anyone looking for professional dress designs."
+          “Absolutely love this design! The quality is exceptional and the files were delivered instantly. 
+          Highly recommend for anyone looking for professional dress designs.”
             </p>
           </div>
         ))}

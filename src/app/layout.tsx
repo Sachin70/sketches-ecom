@@ -2,14 +2,23 @@ import type { Metadata } from 'next'
 import { Playfair_Display, Montserrat } from 'next/font/google'
 import './globals.css'
 import { StoreProvider } from '@/store/StoreProvider'
+import { siteConfig } from '@/config/site'
 
 const _playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-playfair' })
 const _montserrat = Montserrat({ subsets: ['latin'], variable: '--font-montserrat' })
 
 export const metadata: Metadata = {
-  title: 'Atelier - Exquisite Dress Designs | Women & Girls Fashion',
-  description: 'Discover hand-drawn, artisanal dress designs for women and girls. Each piece is a unique creation from our talented designers.',
-  generator: 'v0.app',
+  metadataBase: new URL(siteConfig.url),
+  title: {
+    default: `${siteConfig.fullName} | Hand-drawn dress designs`,
+    template: `%s | ${siteConfig.fullName}`,
+  },
+  description: siteConfig.description,
+  openGraph: {
+    siteName: siteConfig.fullName,
+    type: 'website',
+    locale: 'en_US',
+  },
   icons: {
     icon: [
       {
@@ -35,8 +44,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body className={`font-montserrat antialiased`}>
+    <html lang="en" className={`${_playfair.variable} ${_montserrat.variable}`}>
+      <body className="font-montserrat antialiased">
         <StoreProvider>
           {children}
         </StoreProvider>

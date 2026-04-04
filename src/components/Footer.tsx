@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { Instagram, Twitter, Paintbrush as Pinterest } from 'lucide-react'
+import { siteConfig } from '@/config/site'
 
 export default function Footer() {
   return (
@@ -27,6 +28,7 @@ export default function Footer() {
               <li><Link href="/shop?category=women" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">Women</Link></li>
               <li><Link href="/shop?category=girls" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">Girls</Link></li>
               <li><Link href="/custom" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">Custom Orders</Link></li>
+              <li><Link href="/wishlist" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">Wishlist</Link></li>
             </ul>
           </div>
 
@@ -60,7 +62,7 @@ export default function Footer() {
 
         <div className="border-t border-primary-foreground/20 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center text-sm text-primary-foreground/80">
-            <p>&copy; 2025 Atelier Designs. All rights reserved.</p>
+            <p>&copy; {siteConfig.copyrightYear} {siteConfig.fullName}. All rights reserved.</p>
             <div className="flex gap-6 mt-4 md:mt-0">
               <Link href="/privacy" className="hover:text-primary-foreground transition-colors">Privacy Policy</Link>
               <Link href="/terms" className="hover:text-primary-foreground transition-colors">Terms of Service</Link>

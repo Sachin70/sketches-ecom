@@ -36,7 +36,7 @@ export default function AccountOrders() {
         {mockOrders.length === 0 ? (
           <div className="text-center py-12">
             <Package className="mx-auto text-muted-foreground mb-4" size={48} />
-            <p className="text-muted-foreground mb-4">You haven't placed any orders yet.</p>
+            <p className="text-muted-foreground mb-4">You haven’t placed any orders yet.</p>
             <Link href="/shop">
               <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
                 Start Shopping

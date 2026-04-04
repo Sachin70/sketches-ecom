@@ -28,7 +28,7 @@ export default function ShopContent({
   const [sortBy, setSortBy] = useState('featured')
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
-  const [addedToCart, setAddedToCart] = useState<Record<number, boolean>>({})
+  const [, setAddedToCart] = useState<Record<number, boolean>>({})
 
   const filteredAndSorted = useMemo(() => {
     let filtered = [...initialProducts]

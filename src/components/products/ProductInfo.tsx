@@ -1,11 +1,15 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
+import { useRouter, usePathname } from 'next/navigation'
+import { useAuthFromStorage } from '@/lib/useAuthFromStorage'
 import { Button } from '@/components/ui/Button'
 import { Heart, Share2, Download, FileText, Sparkles, Shield } from 'lucide-react'
 import { Product } from '@/types/product'
-import { useAppDispatch } from '@/store/hooks'
+import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import { addToCart } from '@/store/cartSlice'
+import { selectIsInWishlist, toggleWishlist } from '@/store/wishlistSlice'
 import { CheckCircle2 } from 'lucide-react'
 
 interface ProductInfoProps {
@@ -14,7 +18,10 @@ interface ProductInfoProps {
 
 export default function ProductInfo({ product }: ProductInfoProps) {
   const dispatch = useAppDispatch()
-  const [isWishlisted, setIsWishlisted] = useState(false)
+  const router = useRouter()
+  const pathname = usePathname()
+  const isAuthenticated = useAuthFromStorage()
+  const inWishlist = useAppSelector(selectIsInWishlist(product.id))
   const [addedToCart, setAddedToCart] = useState(false)
   const [selectedSize, setSelectedSize] = useState(product.sizes[0])
   const [selectedColor, setSelectedColor] = useState(product.colorOptions[0])
@@ -93,13 +100,30 @@ export default function ProductInfo({ product }: ProductInfoProps) {
             </div>
           </div>
           <button
-            onClick={() => setIsWishlisted(!isWishlisted)}
+            type="button"
+            onClick={() => {
+              if (!isAuthenticated) {
+                const returnUrl = pathname || `/product/${product.id}`
+                router.push(`/login?returnUrl=${encodeURIComponent(returnUrl)}`)
+                return
+              }
+              dispatch(
+                toggleWishlist({
+                  id: product.id,
+                  name: product.name,
+                  price: product.price,
+                  image: product.images[0],
+                  defaultSize: product.sizes[0],
+                  defaultColor: product.colorOptions[0],
+                })
+              )
+            }}
             className={`p-3 rounded-lg transition-all ${
-              isWishlisted ? 'bg-accent text-accent-foreground shadow-md' : 'bg-secondary text-foreground hover:bg-accent/20'
+              inWishlist ? 'bg-accent text-accent-foreground shadow-md' : 'bg-secondary text-foreground hover:bg-accent/20'
             }`}
-            aria-label="Add to wishlist"
+            aria-label={inWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
           >
-            <Heart size={20} fill={isWishlisted ? 'currentColor' : 'none'} />
+            <Heart size={20} fill={inWishlist ? 'currentColor' : 'none'} />
           </button>
         </div>
 
@@ -205,6 +229,15 @@ export default function ProductInfo({ product }: ProductInfoProps) {
 
       {/* Add to Cart */}
       <div className="space-y-3 pt-6 border-t border-border">
+        <Link href={`/customize/${product.id}`} className="block">
+          <Button
+            variant="outline"
+            className="w-full h-12 text-base border-primary text-primary hover:bg-primary/10 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
+          >
+            <Sparkles size={18} className="mr-2" />
+            Customize This Design
+          </Button>
+        </Link>
         <Button
           className="w-full h-12 text-base bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
           onClick={handleAddToCart}

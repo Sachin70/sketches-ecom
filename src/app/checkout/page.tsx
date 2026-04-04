@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { Button } from '@/components/ui/Button'
@@ -94,7 +95,7 @@ export default function CheckoutPage() {
                 Thank you for your purchase! Your design files have been sent to {formData.email}
               </p>
               <p className="text-sm text-muted-foreground mb-8">
-                Check your email for download links. You'll have lifetime access to your purchased designs.
+                Check your email for download links. You’ll have lifetime access to your purchased designs.
               </p>
               <div className="space-y-3">
                 <Link href="/shop">
@@ -358,21 +359,25 @@ export default function CheckoutPage() {
                 {/* Items */}
                 <div className="space-y-4 mb-6 max-h-64 overflow-y-auto">
                   {items.map((item, index) => (
-                    <div key={`${item.id}-${item.size}-${item.color}-${index}`} className="flex gap-3">
+                    <div
+                      key={`${item.id}-${item.size}-${item.color}-${item.customization ?? ''}-${index}`}
+                      className="flex gap-3"
+                    >
                       <div className="relative w-16 h-16 bg-muted rounded-lg overflow-hidden shrink-0">
-                        <img
+                        <Image
                           src={item.image || '/placeholder.svg'}
                           alt={item.name}
-                          className="w-full h-full object-cover"
-                          onError={(e) => {
-                            const target = e.target as HTMLImageElement
-                            target.src = '/placeholder.svg'
-                          }}
+                          fill
+                          className="object-cover"
+                          sizes="64px"
                         />
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-medium text-foreground truncate">{item.name}</p>
                         <p className="text-xs text-muted-foreground">{item.size} • {item.color}</p>
+                        {item.customization && (
+                          <p className="text-xs text-muted-foreground line-clamp-2 mt-0.5">{item.customization}</p>
+                        )}
                         <p className="text-xs text-muted-foreground">Qty: {item.quantity}</p>
                       </div>
                       <p className="text-sm font-semibold text-primary">${(item.price * item.quantity).toFixed(2)}</p>

@@ -1,6 +1,5 @@
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import { Shield, Lock, Eye, FileText } from 'lucide-react'
 
 export default function PrivacyPage() {
   return (
@@ -123,7 +122,7 @@ export default function PrivacyPage() {
                 <h2 className="text-3xl font-playfair font-bold text-foreground mb-4">Changes to This Policy</h2>
                 <p className="text-muted-foreground leading-relaxed">
                   We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new 
-                  Privacy Policy on this page and updating the "Last updated" date. You are advised to review this Privacy 
+                  Privacy Policy on this page and updating the last updated date. You are advised to review this Privacy 
                   Policy periodically for any changes.
                 </p>
               </div>
