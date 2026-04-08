@@ -23,7 +23,7 @@ export const metadata: Metadata = {
         url: '/logo.jpg',
         width: 1200,
         height: 630,
-        alt: 'stitchorallab - Hand-drawn dress designs',
+        alt: 'StitchoralLab - Hand-drawn dress designs',
       },
     ],
   },
@@ -34,21 +34,8 @@ export const metadata: Metadata = {
     images: ['/logo.jpg'],
   },
   icons: {
-    icon: [
-      {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
-      },
-    ],
-    apple: '/apple-icon.png',
+    icon: '/logo.jpg',
+    apple: '/logo.jpg',
   },
 }
 

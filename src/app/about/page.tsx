@@ -13,7 +13,7 @@ export default function AboutPage() {
         <section className="bg-gradient-to-r from-secondary to-background py-16 md:py-24 border-b border-border">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h1 className="text-5xl md:text-6xl font-playfair font-bold text-foreground mb-6">
-              About stitchorallab
+              About StitchoralLab
             </h1>
             <p className="text-xl text-muted-foreground leading-relaxed">
               We are passionate designers dedicated to creating beautiful, hand-drawn dress designs that inspire creativity and elegance.
@@ -27,7 +27,7 @@ export default function AboutPage() {
             <div className="prose prose-lg max-w-none">
               <h2 className="text-3xl font-playfair font-bold text-foreground mb-6">Our Story</h2>
               <p className="text-muted-foreground leading-relaxed mb-6">
-                stitchorallab was born from a simple yet powerful vision: to make professional, artisanal dress designs accessible to everyone. 
+                StitchoralLab was born from a simple yet powerful vision: to make professional, artisanal dress designs accessible to everyone. 
                 Our team of talented designers brings years of experience from luxury fashion houses, ready-to-wear brands, and independent 
                 ateliers around the world.
               </p>

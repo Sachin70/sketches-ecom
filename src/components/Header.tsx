@@ -57,10 +57,10 @@ export default function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group">
             <div className="w-12 h-12 relative rounded-lg overflow-hidden shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105">
-              <img src="/logo.jpg" alt="stitchorallab Logo" className="w-full h-full object-cover" />
+              <img src="/logo.jpg" alt="StitchoralLab Logo" className="w-full h-full object-cover" />
             </div>
             <div className="hidden sm:block">
-              <span className="text-2xl font-playfair font-bold text-foreground block">stitchorallab</span>
+              <span className="text-2xl font-playfair font-bold text-foreground block">StitchoralLab</span>
               <span className="text-xs text-muted-foreground uppercase tracking-wider">Design Studio</span>
             </div>
           </Link>
