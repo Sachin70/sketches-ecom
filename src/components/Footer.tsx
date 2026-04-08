@@ -13,7 +13,7 @@ export default function Footer() {
               <div className="w-8 h-8 bg-accent rounded-sm flex items-center justify-center">
                 <span className="text-foreground font-bold">A</span>
               </div>
-              <span className="text-lg font-playfair font-bold">Atelier</span>
+              <span className="text-lg font-playfair font-bold">stitchorallab</span>
             </div>
             <p className="text-sm text-primary-foreground/80">
               Crafting elegance, one design at a time.

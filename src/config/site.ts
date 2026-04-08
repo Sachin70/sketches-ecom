@@ -4,8 +4,8 @@ if (!_url.startsWith('http')) {
 }
 
 export const siteConfig = {
-  name: 'Atelier',
-  fullName: 'Atelier Designs',
+  name: 'stitchorallab',
+  fullName: 'stitchorallab',
   description:
     'Hand-drawn dress designs for women and girls. Digital files, commercial license, instant delivery.',
   url: _url,
