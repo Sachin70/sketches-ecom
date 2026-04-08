@@ -24,7 +24,7 @@ export default function TermsPage() {
               <div>
                 <h2 className="text-3xl font-playfair font-bold text-foreground mb-4">Agreement to Terms</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  By accessing or using StitchoralLab’ website and purchasing our design products, you agree to be bound by 
+                  By accessing or using StitchoraLab’ website and purchasing our design products, you agree to be bound by 
                   these Terms of Service. If you disagree with any part of these terms, you may not access our services.
                 </p>
               </div>
@@ -35,7 +35,7 @@ export default function TermsPage() {
                   <div>
                     <h3 className="text-xl font-semibold text-foreground mb-2">Commercial License</h3>
                     <p className="text-muted-foreground">
-                      When you purchase a design from StitchoralLab, you receive a commercial license that allows you to:
+                      When you purchase a design from StitchoraLab, you receive a commercial license that allows you to:
                     </p>
                     <ul className="list-disc list-inside text-muted-foreground space-y-2 ml-4 mt-2">
                       <li>Use the design to produce and sell garments</li>
@@ -61,7 +61,7 @@ export default function TermsPage() {
               <div>
                 <h2 className="text-3xl font-playfair font-bold text-foreground mb-4">Digital Products</h2>
                 <p className="text-muted-foreground leading-relaxed mb-4">
-                  All products sold on StitchoralLab are digital design files. Upon purchase, you will receive:
+                  All products sold on StitchoraLab are digital design files. Upon purchase, you will receive:
                 </p>
                 <ul className="list-disc list-inside text-muted-foreground space-y-2 ml-4">
                   <li>High-resolution design files in specified formats</li>
@@ -95,7 +95,7 @@ export default function TermsPage() {
               <div>
                 <h2 className="text-3xl font-playfair font-bold text-foreground mb-4">Intellectual Property</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  All designs, content, and materials on this website are the property of StitchoralLab and are protected by 
+                  All designs, content, and materials on this website are the property of StitchoraLab and are protected by 
                   copyright and other intellectual property laws. Purchasing a design grants you a license to use it as specified, 
                   but does not transfer ownership of the design itself.
                 </p>
@@ -104,7 +104,7 @@ export default function TermsPage() {
               <div>
                 <h2 className="text-3xl font-playfair font-bold text-foreground mb-4">Limitation of Liability</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  StitchoralLab provides design files “as is” without warranties of any kind. We are not liable for any 
+                  StitchoraLab provides design files “as is” without warranties of any kind. We are not liable for any 
                   damages arising from the use of our designs, including but not limited to production issues, design modifications, 
                   or business decisions made based on our designs.
                 </p>

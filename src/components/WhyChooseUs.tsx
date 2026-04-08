@@ -28,9 +28,9 @@ export default function WhyChooseUs() {
     <section className="bg-secondary py-20 md:py-28">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <p className="text-sm uppercase tracking-widest text-primary font-semibold mb-4">Why Choose StitchoralLab</p>
+          <p className="text-sm uppercase tracking-widest text-primary font-semibold mb-4">Why Choose StitchoraLab</p>
           <h2 className="text-4xl md:text-5xl font-playfair font-bold text-foreground mb-4 text-pretty">
-            The StitchoralLab Difference
+            The StitchoraLab Difference
           </h2>
         </div>
 

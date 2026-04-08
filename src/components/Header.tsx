@@ -60,7 +60,7 @@ export default function Header() {
               <span className="text-primary-foreground font-bold text-xl">S</span>
             </div>
             <div className="hidden sm:block">
-              <span className="text-2xl font-playfair font-bold text-foreground block">StitchoralLab</span>
+              <span className="text-2xl font-playfair font-bold text-foreground block">StitchoraLab</span>
               <span className="text-xs text-muted-foreground uppercase tracking-wider">Design Studio</span>
             </div>
           </Link>

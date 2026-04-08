@@ -24,7 +24,7 @@ export default function PrivacyPage() {
               <div>
                 <h2 className="text-3xl font-playfair font-bold text-foreground mb-4">Introduction</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  At StitchoralLab, we are committed to protecting your privacy. This Privacy Policy explains how we collect, 
+                  At StitchoraLab, we are committed to protecting your privacy. This Privacy Policy explains how we collect, 
                   use, disclose, and safeguard your information when you visit our website and purchase our design products.
                 </p>
               </div>

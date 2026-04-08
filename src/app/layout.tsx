@@ -23,7 +23,7 @@ export const metadata: Metadata = {
         url: '/logo.jpg',
         width: 1200,
         height: 630,
-        alt: 'StitchoralLab - Hand-drawn dress designs',
+        alt: 'StitchoraLab - Hand-drawn dress designs',
       },
     ],
   },
