@@ -18,6 +18,20 @@ export const metadata: Metadata = {
     siteName: siteConfig.fullName,
     type: 'website',
     locale: 'en_US',
+    images: [
+      {
+        url: '/elegant-dress-design-sketch.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Atelier Designs - Hand-drawn dress designs',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: `${siteConfig.fullName} | Hand-drawn dress designs`,
+    description: siteConfig.description,
+    images: ['/elegant-dress-design-sketch.jpg'],
   },
   icons: {
     icon: [
