@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     locale: 'en_US',
     images: [
       {
-        url: '/logo.jpg',
+        url: '/og-image.jpg',
         width: 1200,
         height: 630,
         alt: 'StitchoraLab - Hand-drawn dress designs',
@@ -31,11 +31,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: `${siteConfig.fullName} | Hand-drawn dress designs`,
     description: siteConfig.description,
-    images: ['/logo.jpg'],
-  },
-  icons: {
-    icon: '/logo.jpg',
-    apple: '/logo.jpg',
+    images: ['/twitter-image.jpg'],
   },
 }
 
