@@ -11,7 +11,7 @@ export default function Footer() {
           <div className="space-y-4">
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 bg-accent rounded-sm flex items-center justify-center">
-                <span className="text-foreground font-bold">A</span>
+                <span className="text-foreground font-bold">S</span>
               </div>
               <span className="text-lg font-playfair font-bold">StitchoralLab</span>
             </div>

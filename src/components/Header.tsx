@@ -56,8 +56,8 @@ export default function Header() {
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-12 h-12 relative rounded-lg overflow-hidden shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105">
-              <img src="/logo.jpg" alt="StitchoralLab Logo" className="w-full h-full object-cover" />
+            <div className="w-12 h-12 bg-gradient-to-br from-primary to-primary/80 rounded-lg flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105">
+              <span className="text-primary-foreground font-bold text-xl">S</span>
             </div>
             <div className="hidden sm:block">
               <span className="text-2xl font-playfair font-bold text-foreground block">StitchoralLab</span>
